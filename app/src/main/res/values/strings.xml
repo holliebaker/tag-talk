@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TagTalk</string>
+    <string name="welcome_message">Welcome to TagTal, please scan an NFC tag containing plain text.</string>
+    <string name="unexpected_error">An unexpected error occurred reading the tag.</string>
+</resources>
