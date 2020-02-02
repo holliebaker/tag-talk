@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         labelText = (TextView) findViewById(R.id.label_text);
 
-        Log.d(TAG, "activity loaded - MainActivity");
         labelText.setText(R.string.welcome_message);
     }
 }
