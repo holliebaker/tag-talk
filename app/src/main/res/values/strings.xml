@@ -2,4 +2,11 @@
     <string name="app_name">TagTalk</string>
     <string name="welcome_message">Welcome to TagTalk, please scan an NFC tag containing plain text.</string>
     <string name="unexpected_error">An unexpected error occurred reading the tag.</string>
+    <string name="button_add_label">Add label</string>
+    <string name="label_text">Label text</string>
+    <string name="label_write_status_ready">Scan a tag to write the text.</string>
+    <string name="label_write_status_empty">Please enter text, then scan a tag to write it.</string>
+    <string name="label_write_status_success">Success! The tag has been written.</string>
+    <string name="label_write_status_error">An unexpected error occurred while writing teh tag.</string>
+    <string name="label_write_status_error_no_text">Unable to write blank text, please first enter text then scan a tag to write it.</string>
 </resources>

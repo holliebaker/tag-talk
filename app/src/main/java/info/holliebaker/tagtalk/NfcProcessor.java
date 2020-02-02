@@ -1,16 +1,31 @@
 package info.holliebaker.tagtalk;
 
 import android.content.Intent;
+import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
+import android.nfc.Tag;
+import android.nfc.tech.Ndef;
 import android.os.Parcelable;
 import android.speech.tts.TextToSpeech;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.Format;
 
 public class NfcProcessor {
     private static final String TEXT_PLAIN = "text/plain";
+
+    public class MessogeWriteException extends Exception {
+        public MessogeWriteException(String message) {
+            super(message);
+        }
+
+        public MessogeWriteException(Throwable cause) {
+            super(cause);
+        }
+    }
 
     public class InvalidMessageException extends Exception {
         public InvalidMessageException(String message) {
@@ -62,5 +77,37 @@ public class NfcProcessor {
                 payload.length - languageCodeLength - 1,
                 encoding
         );
+    }
+
+    public void writeMessagePlainText(Tag tag, String text) throws MessogeWriteException {
+        boolean written = false;
+        String[] techList = tag.getTechList();
+
+        for (String tech : techList) {
+            if (tech.equals(Ndef.class.getName())) {
+                NdefRecord[] records = new NdefRecord[1];
+                records[0] = NdefRecord.createTextRecord("en", text);
+
+                NdefMessage message = new NdefMessage(records);
+                Ndef ndef = Ndef.get(tag);
+                try {
+                    ndef.connect();
+                    ndef.writeNdefMessage(message);
+                    ndef.close();
+
+                    written = true;
+                } catch (FormatException e) {
+                    throw new MessogeWriteException((Throwable) e);
+                } catch (IOException e) {
+                    throw new MessogeWriteException((Throwable) e);
+                }
+            }
+        }
+
+        if (!written) {
+            throw new MessogeWriteException(
+                    "No messages have been written."
+            );
+        }
     }
 }
